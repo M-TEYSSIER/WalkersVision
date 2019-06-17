@@ -1,0 +1,34 @@
+Compter les passants 
+        -Nb passants (Bien - Obligatoire)
+        -Infos sup: (Mieux - Optionnel)
+                - Trajectoire (Gauche/Droit/Haut/Bas)
+                - Typologie (Adulte/Enfant)
+
+Remonter data:  
+        - LoRa ou TCP/IP
+        - Aucune image à diffuser -> remonter de stats seulement
+
+Imagerie:
+        - pinhole/Trou d'épingle
+        - matrice de projection
+
+Mission: 
+        - Dimensionnement
+                - Camera      
+                - (Distance) Focale? Objectif de la camera? Profondeur de champs
+                - Distance que la cam doit avoir pour voir,...
+        - Calibrer camera
+        - Calibrer paire 
+        - Mise en corresp.
+        - Detection de la peau humaine
+                - Couleur
+                - HSV (luminance - Saturation - Chroma) # Toutes les peaux humaines ont le même chroma
+
+A chercher (Biblio) :
+        - Profondeur de champs, focale, distance, ouverture,...
+        - pinhole, camera model
+        - OpenCV
+
+A demander:
+        - Plan de la place
+        - Fichier excel

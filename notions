@@ -1,0 +1,29 @@
+Profondeur de champs (PDC):
+        - Distance entre les éléments les plus proches/éloignés
+        - Permet d'ajuster l'espace visible, net.
+        - Plus on est proche du sujet pour faire la mise au point, plus la profondeur de champ sera faible.
+Distance/longueur Focale:
+        - distance entre le centre optique de l'objectif et le foyer
+        - Exprimé en millimètres, indique (en grooos) au le niveau de zoom
+        - Catégories (Permet le "Zoom"):
+                - Standatrs (50 - 35 mm), reproduit l'angle de vue de l'oeil humain.
+                - Grand-angle (18 mm), diminue la taille des objets et donne un angle de vue plus grand  [Augmente l'effet de profondeur]
+                - Téléobjectif (250 mm), qui agrandit la taille des objets, mais donne aussi un angle de vue plus étroit [Diminue l'effet de profondeur"]
+Ouverture du diaphragme:
+        - KeyWord: Exposition, vitesse d'obturation, sensibilité ISO
+        - La pupille de l'objectif s'appelle l'ouverture
+                - Correspond au diamètre du diaphragme de l'objectif
+        - Equivalant à notre oeil
+        - Plus l'ouverture est grande (chiffre le plus petit), plus le diaphragme laisse passer la lumière. Il est ouvert. Vice Versa
+        - Ex: Diaphragme ouvert à F/1,4 laisse passer plus de lumière qu'à F/8
+        - Plus l'ouverture est grande plus la zone de netteté sur l'image sera réduite.
+        - N.B.: mode priorité à l'ouverture, diff appellations:
+                - Av : Aperture Value (valeur d'ouverture)
+                - A : Aperture (Ouverture)
+##N.B.: Plus la focale est importante, plus la profondeur de champ est faible##
+Sténopé ou Pinhole: 
+        - Sténopé : trou étroit en Grec, ce que les Anglais dénomment “Pinhole”, trou d’aiguille.
+        - Le "trou" est le diaphragme
+        - Une lentille, et plus souvent un ensemble de lentilles, constituant l'objectif est placée devant ce diaphragme pour améliorer la qualité de l'image
+        - Les rayons lumineux réfléchis par un sujet, en traversant un petit trou, permettent de reproduire l’image du sujet, inversée haut et bas, droite et gauche.
+
