@@ -26,4 +26,5 @@ Sténopé ou Pinhole:
         - Le "trou" est le diaphragme
         - Une lentille, et plus souvent un ensemble de lentilles, constituant l'objectif est placée devant ce diaphragme pour améliorer la qualité de l'image
         - Les rayons lumineux réfléchis par un sujet, en traversant un petit trou, permettent de reproduire l’image du sujet, inversée haut et bas, droite et gauche.
-
+OpenCV: 
+        - Librairie ecrit en C/C++, open source pour la vision par ordinateur.  
