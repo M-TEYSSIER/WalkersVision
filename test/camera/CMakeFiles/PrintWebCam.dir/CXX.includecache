@@ -13,10 +13,14 @@ stdio.h
 -
 stdlib.h
 -
+string
+-
 ../opencv/core.hpp
 /home/riesjack/Documents/stage/WalkersVision/test/opencv/core.hpp
 ../opencv/imgproc.hpp
 /home/riesjack/Documents/stage/WalkersVision/test/opencv/imgproc.hpp
+../opencv/highgui.hpp
+/home/riesjack/Documents/stage/WalkersVision/test/opencv/highgui.hpp
 
 /home/riesjack/Documents/stage/WalkersVision/test/opencv/core.hpp
 opencv2/core/cvdef.h
@@ -47,6 +51,10 @@ opencv2/core/optim.hpp
 /home/riesjack/Documents/stage/WalkersVision/test/opencv/opencv2/core/optim.hpp
 opencv2/core/ovx.hpp
 /home/riesjack/Documents/stage/WalkersVision/test/opencv/opencv2/core/ovx.hpp
+
+/home/riesjack/Documents/stage/WalkersVision/test/opencv/highgui.hpp
+opencv2/highgui.hpp
+/home/riesjack/Documents/stage/WalkersVision/test/opencv/opencv2/highgui.hpp
 
 /home/riesjack/Documents/stage/WalkersVision/test/opencv/imgproc.hpp
 opencv2/imgproc.hpp

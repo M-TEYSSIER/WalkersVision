@@ -1,16 +1,19 @@
 #include "../opencv/opencv.hpp"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
 #include "../opencv/core.hpp"
 #include "../opencv/imgproc.hpp"
+#include "../opencv/highgui.hpp"
+
 using namespace cv;
 
 int main(int argc, char** argv)
 {
-        VideoCapture cap(0);//Open the default video camera
-
-    if(!cap.isOpened())  // check if we succeeded
-        return -1;
+    VideoCapture cap(0);//Open the default video camera
+       
+    if(!cap.isOpened()){  // check if we succeeded
+        return -1;}
 
     Mat edges;
     namedWindow("edges",1);

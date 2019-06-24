@@ -130,7 +130,7 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=test
+CMAKE_PROJECT_NAME:STATIC=img2hsv
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -189,6 +189,24 @@ DisplayImage2_SOURCE_DIR:STATIC=/home/riesjack/Documents/stage/WalkersVision/tes
 
 //The directory containing a CMake configuration file for OpenCV.
 OpenCV_DIR:PATH=/usr/local/lib/cmake/opencv4
+
+//Value Computed by CMake
+compareImg_BINARY_DIR:STATIC=/home/riesjack/Documents/stage/WalkersVision/test/photo
+
+//Value Computed by CMake
+compareImg_SOURCE_DIR:STATIC=/home/riesjack/Documents/stage/WalkersVision/test/photo
+
+//Value Computed by CMake
+fusionImg_BINARY_DIR:STATIC=/home/riesjack/Documents/stage/WalkersVision/test/photo
+
+//Value Computed by CMake
+fusionImg_SOURCE_DIR:STATIC=/home/riesjack/Documents/stage/WalkersVision/test/photo
+
+//Value Computed by CMake
+img2hsv_BINARY_DIR:STATIC=/home/riesjack/Documents/stage/WalkersVision/test/photo
+
+//Value Computed by CMake
+img2hsv_SOURCE_DIR:STATIC=/home/riesjack/Documents/stage/WalkersVision/test/photo
 
 //Value Computed by CMake
 test_BINARY_DIR:STATIC=/home/riesjack/Documents/stage/WalkersVision/test/photo

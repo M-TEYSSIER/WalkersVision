@@ -111,44 +111,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named PrintWebCam
+# Target rules for targets named test
 
 # Build rule for target.
-PrintWebCam: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 PrintWebCam
-.PHONY : PrintWebCam
+test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test
+.PHONY : test
 
 # fast build rule for target.
-PrintWebCam/fast:
-	$(MAKE) -f CMakeFiles/PrintWebCam.dir/build.make CMakeFiles/PrintWebCam.dir/build
-.PHONY : PrintWebCam/fast
+test/fast:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
+.PHONY : test/fast
 
-PrintWebCam.o: PrintWebCam.cpp.o
+test.o: test.cpp.o
 
-.PHONY : PrintWebCam.o
+.PHONY : test.o
 
 # target to build an object file
-PrintWebCam.cpp.o:
-	$(MAKE) -f CMakeFiles/PrintWebCam.dir/build.make CMakeFiles/PrintWebCam.dir/PrintWebCam.cpp.o
-.PHONY : PrintWebCam.cpp.o
+test.cpp.o:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.o
+.PHONY : test.cpp.o
 
-PrintWebCam.i: PrintWebCam.cpp.i
+test.i: test.cpp.i
 
-.PHONY : PrintWebCam.i
+.PHONY : test.i
 
 # target to preprocess a source file
-PrintWebCam.cpp.i:
-	$(MAKE) -f CMakeFiles/PrintWebCam.dir/build.make CMakeFiles/PrintWebCam.dir/PrintWebCam.cpp.i
-.PHONY : PrintWebCam.cpp.i
+test.cpp.i:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.i
+.PHONY : test.cpp.i
 
-PrintWebCam.s: PrintWebCam.cpp.s
+test.s: test.cpp.s
 
-.PHONY : PrintWebCam.s
+.PHONY : test.s
 
 # target to generate assembly for a file
-PrintWebCam.cpp.s:
-	$(MAKE) -f CMakeFiles/PrintWebCam.dir/build.make CMakeFiles/PrintWebCam.dir/PrintWebCam.cpp.s
-.PHONY : PrintWebCam.cpp.s
+test.cpp.s:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.s
+.PHONY : test.cpp.s
 
 # Help Target
 help:
@@ -157,11 +157,11 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... PrintWebCam"
+	@echo "... test"
 	@echo "... edit_cache"
-	@echo "... PrintWebCam.o"
-	@echo "... PrintWebCam.i"
-	@echo "... PrintWebCam.s"
+	@echo "... test.o"
+	@echo "... test.i"
+	@echo "... test.s"
 .PHONY : help
 
 

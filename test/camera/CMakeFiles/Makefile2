@@ -60,39 +60,39 @@ CMAKE_SOURCE_DIR = /home/riesjack/Documents/stage/WalkersVision/test/camera
 CMAKE_BINARY_DIR = /home/riesjack/Documents/stage/WalkersVision/test/camera
 
 #=============================================================================
-# Target rules for target CMakeFiles/PrintWebCam.dir
+# Target rules for target CMakeFiles/test.dir
 
 # All Build rule for target.
-CMakeFiles/PrintWebCam.dir/all:
-	$(MAKE) -f CMakeFiles/PrintWebCam.dir/build.make CMakeFiles/PrintWebCam.dir/depend
-	$(MAKE) -f CMakeFiles/PrintWebCam.dir/build.make CMakeFiles/PrintWebCam.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/riesjack/Documents/stage/WalkersVision/test/camera/CMakeFiles --progress-num=1,2 "Built target PrintWebCam"
-.PHONY : CMakeFiles/PrintWebCam.dir/all
+CMakeFiles/test.dir/all:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/depend
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/riesjack/Documents/stage/WalkersVision/test/camera/CMakeFiles --progress-num=1,2 "Built target test"
+.PHONY : CMakeFiles/test.dir/all
 
 # Include target in all.
-all: CMakeFiles/PrintWebCam.dir/all
+all: CMakeFiles/test.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/PrintWebCam.dir/rule: cmake_check_build_system
+CMakeFiles/test.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/riesjack/Documents/stage/WalkersVision/test/camera/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/PrintWebCam.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/test.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/riesjack/Documents/stage/WalkersVision/test/camera/CMakeFiles 0
-.PHONY : CMakeFiles/PrintWebCam.dir/rule
+.PHONY : CMakeFiles/test.dir/rule
 
 # Convenience name for target.
-PrintWebCam: CMakeFiles/PrintWebCam.dir/rule
+test: CMakeFiles/test.dir/rule
 
-.PHONY : PrintWebCam
-
-# clean rule for target.
-CMakeFiles/PrintWebCam.dir/clean:
-	$(MAKE) -f CMakeFiles/PrintWebCam.dir/build.make CMakeFiles/PrintWebCam.dir/clean
-.PHONY : CMakeFiles/PrintWebCam.dir/clean
+.PHONY : test
 
 # clean rule for target.
-clean: CMakeFiles/PrintWebCam.dir/clean
+CMakeFiles/test.dir/clean:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/clean
+.PHONY : CMakeFiles/test.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/test.dir/clean
 
 .PHONY : clean
 

@@ -111,44 +111,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named test
+# Target rules for targets named img2hsv
 
 # Build rule for target.
-test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test
-.PHONY : test
+img2hsv: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 img2hsv
+.PHONY : img2hsv
 
 # fast build rule for target.
-test/fast:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
-.PHONY : test/fast
+img2hsv/fast:
+	$(MAKE) -f CMakeFiles/img2hsv.dir/build.make CMakeFiles/img2hsv.dir/build
+.PHONY : img2hsv/fast
 
-test.o: test.cpp.o
+img2hsv.o: img2hsv.cpp.o
 
-.PHONY : test.o
+.PHONY : img2hsv.o
 
 # target to build an object file
-test.cpp.o:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.o
-.PHONY : test.cpp.o
+img2hsv.cpp.o:
+	$(MAKE) -f CMakeFiles/img2hsv.dir/build.make CMakeFiles/img2hsv.dir/img2hsv.cpp.o
+.PHONY : img2hsv.cpp.o
 
-test.i: test.cpp.i
+img2hsv.i: img2hsv.cpp.i
 
-.PHONY : test.i
+.PHONY : img2hsv.i
 
 # target to preprocess a source file
-test.cpp.i:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.i
-.PHONY : test.cpp.i
+img2hsv.cpp.i:
+	$(MAKE) -f CMakeFiles/img2hsv.dir/build.make CMakeFiles/img2hsv.dir/img2hsv.cpp.i
+.PHONY : img2hsv.cpp.i
 
-test.s: test.cpp.s
+img2hsv.s: img2hsv.cpp.s
 
-.PHONY : test.s
+.PHONY : img2hsv.s
 
 # target to generate assembly for a file
-test.cpp.s:
-	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/test.cpp.s
-.PHONY : test.cpp.s
+img2hsv.cpp.s:
+	$(MAKE) -f CMakeFiles/img2hsv.dir/build.make CMakeFiles/img2hsv.dir/img2hsv.cpp.s
+.PHONY : img2hsv.cpp.s
 
 # Help Target
 help:
@@ -157,11 +157,11 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... test"
+	@echo "... img2hsv"
 	@echo "... edit_cache"
-	@echo "... test.o"
-	@echo "... test.i"
-	@echo "... test.s"
+	@echo "... img2hsv.o"
+	@echo "... img2hsv.i"
+	@echo "... img2hsv.s"
 .PHONY : help
 
 

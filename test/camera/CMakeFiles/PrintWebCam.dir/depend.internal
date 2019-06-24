@@ -4,6 +4,7 @@
 CMakeFiles/PrintWebCam.dir/PrintWebCam.cpp.o
  /home/riesjack/Documents/stage/WalkersVision/test/camera/PrintWebCam.cpp
  /home/riesjack/Documents/stage/WalkersVision/test/opencv/core.hpp
+ /home/riesjack/Documents/stage/WalkersVision/test/opencv/highgui.hpp
  /home/riesjack/Documents/stage/WalkersVision/test/opencv/imgproc.hpp
  /home/riesjack/Documents/stage/WalkersVision/test/opencv/opencv.hpp
  /usr/local/include/opencv4/opencv2/calib3d.hpp

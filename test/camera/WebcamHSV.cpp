@@ -1,7 +1,10 @@
 #include "opencv2/imgproc.hpp"
 #include "opencv2/highgui.hpp"
 #include <iostream>
+
 using namespace cv;
+using namespace std;
+
 const int max_value_H = 360/2;
 const int max_value = 255;
 const String window_capture_name = "Video Capture";
@@ -50,20 +53,41 @@ int main(int argc, char* argv[])
     createTrackbar("High S", window_detection_name, &high_S, max_value, on_high_S_thresh_trackbar);
     createTrackbar("Low V", window_detection_name, &low_V, max_value, on_low_V_thresh_trackbar);
     createTrackbar("High V", window_detection_name, &high_V, max_value, on_high_V_thresh_trackbar);
-    Mat frame, frame_HSV, frame_threshold;
+
+    Mat frame, frame_HSV, frame_threshold, res;
+
     while (true) {
         cap >> frame;
         if(frame.empty())
         {
             break;
         }
+
+//        std::cout << frame.rows << " " << frame.cols << std::endl ;
+
         // Convert from BGR to HSV colorspace
         cvtColor(frame, frame_HSV, COLOR_BGR2HSV,0);
         // Detect the object based on HSV Range Values
-        inRange(frame_HSV, Scalar(low_H, low_S, low_V), Scalar(high_H, high_S, high_V), frame_threshold);
+        inRange(frame_HSV, Scalar(1, 10, 0), Scalar(46, 127, 255), frame_threshold);
+        
+        for(int i=0; i<480 ; i++ ){
+                for(int j=0; j<640 ; j++){
+                        //if(int(frame_threshold.data[i,j]) == 1){
+                        printf("%d -",frame_HSV.data[i,j]);
+                        /*if(int(frame_threshold.data[i,j]) == 255){
+                                res.data[i,j]=frame.data[i,j];          
+                        }else{
+                                res.data[i,j]=frame_threshold.data[i,j];
+                        }*/
+                }
+                printf("\n");
+        }
+
         // Show the frames
         imshow(window_capture_name, frame);
         imshow(window_detection_name, frame_threshold);
+        imshow("Final",res);
+
         char key = (char) waitKey(30);
         if (key == 'q' || key == 27)
         {
