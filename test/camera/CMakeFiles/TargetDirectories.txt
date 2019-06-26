@@ -1,3 +1,0 @@
-/home/riesjack/Documents/stage/WalkersVision/test/camera/CMakeFiles/rebuild_cache.dir
-/home/riesjack/Documents/stage/WalkersVision/test/camera/CMakeFiles/test.dir
-/home/riesjack/Documents/stage/WalkersVision/test/camera/CMakeFiles/edit_cache.dir

@@ -31,6 +31,7 @@ int main(int argc, char* argv[]){
 // ------------------- Recuperation Peau Humaine (END)  ------------------------
 //                                                                            //
 // ------------ Mise en place de Erosion / Dilatation (BEGIN) ------------------
+
        dilate(PH,dil,Mat(), Point(-1,1),1,1,1);
        erode(dil,ero,Mat(), Point(-1,1),1,1,1);
 // ------------ Mise en place de Erosion / Dilatation (END) ------------------
@@ -39,25 +40,22 @@ int main(int argc, char* argv[]){
 //       imshow("Image Traite", dil);
 //       imshow("Image", frame);
 
-       imshow("Après erode et dilate", ero);
-
-       // Soustraction d'image
+       imshow("Difference1", ero);
        absdiff(frame, ero, diff);
 
-       Mat mask(frame.size(), CV_8UC1);
-
-       for(int j=0; j<diff.rows; ++j) {
-               for(int i=0; i<diff.cols; ++i){
-                    cv::Vec3b pix = diff.at<cv::Vec3b>(j,i);
-                    int val = (pix[0] + pix[1] + pix[2]);
-                    if(val>10){
-                        mask.at<unsigned char>(j,i) = 255;
-                    }
-                }
+           Mat mask(frame.size(), CV_8UC1);
+    for(int j=0; j<diff.rows; ++j) {
+        for(int i=0; i<diff.cols; ++i){
+            cv::Vec3b pix = diff.at<cv::Vec3b>(j,i);
+            int val = (pix[0] + pix[1] + pix[2]);
+            if(val>10){
+                mask.at<unsigned char>(j,i) = 255;
+            }
         }
+    }
 
     // get the foreground
-        Mat res;
+    Mat res;
         bitwise_and(frame, ero, res, mask);
 
        imshow("Difference", res);
@@ -66,7 +64,8 @@ int main(int argc, char* argv[]){
        if (key == 'q' || key == 27){
             break;
         }
-        if (waitKey(10) == 27)        {
+        if (waitKey(10) == 27)
+        {
             cout << "Esc key is pressed by the user. Stopping the video" << endl;
             break;
         }
