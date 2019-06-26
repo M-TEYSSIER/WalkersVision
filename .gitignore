@@ -1,0 +1,6 @@
+# Tout les executablie (.exec)
+*.exec
+
+# Dossier Images, cmake,
+test/[iI]mages/
+test/[Cc]make/ 
