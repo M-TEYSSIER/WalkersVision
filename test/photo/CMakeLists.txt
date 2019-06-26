@@ -1,6 +1,0 @@
-cmake_minimum_required(VERSION 2.8)
-project( img2hsv )
-find_package( OpenCV REQUIRED )
-include_directories( ${OpenCV_INCLUDE_DIRS} )
-add_executable(img2hsv img2hsv.cpp )
-target_link_libraries( img2hsv ${OpenCV_LIBS} )

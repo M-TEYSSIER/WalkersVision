@@ -1,3 +1,0 @@
-/home/riesjack/Documents/stage/WalkersVision/test/photo/CMakeFiles/rebuild_cache.dir
-/home/riesjack/Documents/stage/WalkersVision/test/photo/CMakeFiles/img2hsv.dir
-/home/riesjack/Documents/stage/WalkersVision/test/photo/CMakeFiles/edit_cache.dir
