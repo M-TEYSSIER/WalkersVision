@@ -1,3 +1,0 @@
-/home/riesjack/Documents/stage/WalkersVision/test/cmake/CMakeFiles/rebuild_cache.dir
-/home/riesjack/Documents/stage/WalkersVision/test/cmake/CMakeFiles/DiffCam.dir
-/home/riesjack/Documents/stage/WalkersVision/test/cmake/CMakeFiles/edit_cache.dir
