@@ -1,0 +1,5 @@
+# Tout les executablie (.exec)
+.exec
+# Dossier Images, cmake,
+./Images/
+./cmake 
