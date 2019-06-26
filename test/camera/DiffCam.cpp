@@ -9,34 +9,38 @@
 
 using namespace cv;
 
-int main(int argc, char** argv)
+int
+main (int argc, char **argv)
 {
-    VideoCapture cap(2); //Open the default video camera
-       
-    if(!cap.isOpened()){  // check if we succeeded
-        return -1;}
+  VideoCapture cap (2);		//Open the default video camera
 
-    Mat frame, edges;
+  if (!cap.isOpened ())
+    {				// check if we succeeded
+      return -1;
+    }
 
-    for(;;)
-    { 
-        cap >> frame; // get a new frame from camera
+  Mat frame, edges;
 
-        cvtColor(frame, edges, COLOR_BGR2HSV);
-        
+  for (;;)
+    {
+      cap >> frame;		// get a new frame from camera
+
+      cvtColor (frame, edges, COLOR_BGR2HSV);
+
 //        imwrite("test.png",frame); Faire une photo
 
-        //Mat res;
-        //substract(frame, edges,res);
-        
-        inRange(edges, Scalar(1, 79, 98), Scalar(50, 187, 174), edges);
+      //Mat res;
+      //substract(frame, edges,res);
 
-        imshow("frame", frame);
-        imshow("edges", edges);
+      inRange (edges, Scalar (1, 79, 98), Scalar (50, 187, 174), edges);
 
-        if(waitKey(30) >= 0) break;
+      imshow ("frame", frame);
+      imshow ("edges", edges);
+
+      if (waitKey (30) >= 0)
+	break;
 
     }
 
-    return 0;
+  return 0;
 }

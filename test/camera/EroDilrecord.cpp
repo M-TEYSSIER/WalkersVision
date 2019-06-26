@@ -19,12 +19,10 @@ main (int argc, char *argv[])
 
   int frames_per_second = 10;
 
-  //Create and initialize the VideoWriter object 
   VideoWriter oVideoWriter ("./Video.avi",
 			    VideoWriter::fourcc ('M', 'J', 'P', 'G'),
 			    frames_per_second, frame_size, true);
 
-  //If the VideoWriter object is not initialized successfully, exit the program
   if (oVideoWriter.isOpened () == false)
     {
       cout << "Cannot save the video to a file" << endl;
@@ -34,8 +32,6 @@ main (int argc, char *argv[])
 
   string window_name = "My Camera Feed";
   namedWindow (window_name);	//create a window called "My Camera Feed"
-
-
 
   while (true)
     {
@@ -50,14 +46,14 @@ main (int argc, char *argv[])
 // ------------------- Recuperation Peau Humaine (BEGIN)  ----------------------
       cvtColor (frame, frame_HSV, COLOR_BGR2HSV, 0);
       //inRange(frame_HSV, Scalar(1, 7, 120), Scalar(46, 147, 250), frame_threshold);
-      inRange (frame_HSV, Scalar (0, 7, 150), Scalar (55, 147, 240),
+      inRange (frame_HSV, Scalar (1, 8, 20), Scalar (46, 137, 200),
 	       frame_threshold);
 
       for (int i = 0; i < PH.rows; i++)
 	{
 	  for (int j = 0; j < PH.cols; j++)
 	    {
-	      F if (frame_threshold.at < unsigned char >(Point (j, i)) != 255)
+	      if (frame_threshold.at < unsigned char >(Point (j, i)) != 255)
 		{
 		  PH.at < Vec3b > (Point (j, i)) = Vec3b (0, 0, 0);
 		}
@@ -67,22 +63,19 @@ main (int argc, char *argv[])
 //                                                                            //
 // ------------ Mise en place de Erosion / Dilatation (BEGIN) ------------------
       Mat ero, dil;
-
-      dilate (PH, dil, Mat (), Point (-1, 1), 1, 1, 1);
+      erode (PH, ero, Mat (), Point (-1, 1), 1, 1, 1);
+      dilate (ero, dil, Mat (), Point (-1, 1), 1, 1, 1);
       erode (dil, ero, Mat (), Point (-1, 1), 1, 1, 1);
-
+      dilate (ero, dil, Mat (), Point (-1, 1), 1, 1, 1);
 // ------------ Mise en place de Erosion / Dilatation (END) ------------------
 
-
-      imshow ("Image Traite", ero);
-      imshow ("Image", frame);
+      imshow ("Image Traite", dil);
 
       char key = (char) waitKey (30);
       if (key == 'q' || key == 27)
 	{
 	  break;
 	}
-
       bool isSuccess = cap.read (frame);	// read a new frame from the video camera
 
       if (isSuccess == false)
@@ -93,7 +86,6 @@ main (int argc, char *argv[])
 	}
 
       oVideoWriter.write (dil);
-      oVideoWriter.write (frame);
       imshow (window_name, frame);
 
       if (waitKey (10) == 27)
@@ -102,7 +94,6 @@ main (int argc, char *argv[])
 	    endl;
 	  break;
 	}
-
     }
 
   oVideoWriter.release ();
