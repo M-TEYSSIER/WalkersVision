@@ -1,6 +1,5 @@
 # Tout les executablie (.exec)
 .exec
-.exrc
 # Dossier Images, cmake,
-./Images/
-./cmake 
+Images/
+cmake 
