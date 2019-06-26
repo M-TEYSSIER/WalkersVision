@@ -1,5 +1,6 @@
 # Tout les executablie (.exec)
 .exec
+!.gitignore
 # Dossier Images, cmake,
 Images/
 cmake/ 
