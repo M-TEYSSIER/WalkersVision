@@ -10,7 +10,6 @@ int i,j,score=150, R,G,B,R1,G1,B1,R2,G2,B2;
 
 int Calcul(uchar R1,uchar R2,uchar G1,uchar G2,uchar B1,uchar B2){
         int a=sqrt(pow(abs(R1-R2),2)+pow(abs(G1-G2),2)+pow(abs(B1-B2),2));
-        printf("%d      ",a);
         return a;
 }
 
@@ -39,17 +38,17 @@ int main(int argc, char **argv){
 
                                if(score < Calcul(R1,R2,G1,G2,B1,B2)){
                                         R=G=B=0; 
-                                        printf("Mise à 0\n");
+                                       // printf("Mise à 0\n");
                                 } else if(score > Calcul(R1,R2,G1,G2,B1,B2)){
-                                        R=colorW[2]; 
-                                        G=colorW[1]; 
-                                        B=colorW[0]; 
-                                        printf("On laisse les couleurs\n");
-                                                
+                                        R=R1; 
+                                        G=G1; 
+                                        B=B1; 
+                                     //   printf("On laisse les couleurs\n");
                                }
                         }
                 }
-                imshow("Final", resultat);
+                imshow("Resultat", resultat);
+                imshow("Webcam", webcam);
                 if(waitKey(30)>=0){break;}
         }
         cap.release();
