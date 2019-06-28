@@ -12,25 +12,6 @@ int main(int argc, char **argv){
         VideoCapture cap(atoi(argv[1]));
         Mat webcam, reference, resultat(480,640,CV_8UC3);
 //        reference=imread("ref.png");
-
-
-  int frame_width = static_cast < int >(cap.get (CAP_PROP_FRAME_WIDTH));	//get the width of frames of the video
-  int frame_height = static_cast < int >(cap.get (CAP_PROP_FRAME_HEIGHT));	//get the height of frames of the video
-
-  Size frame_size (frame_width, frame_height);
-
-  int frames_per_second = 10;
-
-  VideoWriter oVideoWriter ("./Video.avi",
-			    VideoWriter::fourcc ('M', 'J', 'P', 'G'),
-			    frames_per_second, frame_size, true);
-
-  if (oVideoWriter.isOpened () == false)
-    {
-      cout << "Cannot save the video to a file" << endl;
-      cin.get ();		//wait for any key press
-      return -1;
-    }
         cap>> reference;
         while(true){
                 cap>>webcam;
@@ -51,6 +32,7 @@ int main(int argc, char **argv){
                                G2=ptref[j][1];
                                B2=ptref[j][0];
                                Calcul=sqrt(pow(abs(R1-R2),2)+pow(abs(G1-G2),2)+pow(abs(B1-B2),2));
+                           //    printf("Calcul: %d -R1: %d - R2: %d -  G1: %d - G2: %d - B1: %d - B2: %d\n",Calcul,R1,R2,G1,G2,B1,B2);
                                if( score < Calcul ){
                                         ptres[j]=Vec3b(ptr[j][0],ptr[j][1],ptr[j][2]);                               
                                }
@@ -59,10 +41,9 @@ int main(int argc, char **argv){
                                }
                         }
                 }
-                oVideoWriter.write(resultat);
+                imshow("Resultat", resultat);
                 imshow("Reference", reference);
                 imshow("Webcam", webcam);
-                imshow("Resultat", resultat);
                 if(waitKey(30)>=0){break;}
         }
         cap.release();
