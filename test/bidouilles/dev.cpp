@@ -1,36 +1,16 @@
-#include "../opencv/imgproc.hpp"
-#include "../opencv/highgui.hpp"
+#include "../../opencv/imgproc.hpp"
+#include "../../opencv/highgui.hpp"
 #include <iostream>
 #include <cmath>
 
 using namespace cv;
 using namespace std;
 
-int i,j,score=100,R,G,B,R1,G1,B1,R2,G2,B2,Calcul;  
+int i,j,score=70,R,G,B,R1,G1,B1,R2,G2,B2,Calcul;  
 
 int main(int argc, char **argv){
         VideoCapture cap(atoi(argv[1]));
-        Mat webcam, reference, resultat(480,640,CV_8UC3);
-//        reference=imread("ref.png");
-
-
-  int frame_width = static_cast < int >(cap.get (CAP_PROP_FRAME_WIDTH));	//get the width of frames of the video
-  int frame_height = static_cast < int >(cap.get (CAP_PROP_FRAME_HEIGHT));	//get the height of frames of the video
-
-  Size frame_size (frame_width, frame_height);
-
-  int frames_per_second = 10;
-
-  VideoWriter oVideoWriter ("./Video.avi",
-			    VideoWriter::fourcc ('M', 'J', 'P', 'G'),
-			    frames_per_second, frame_size, true);
-
-  if (oVideoWriter.isOpened () == false)
-    {
-      cout << "Cannot save the video to a file" << endl;
-      cin.get ();		//wait for any key press
-      return -1;
-    }
+        Mat webcam, reference, resultat(480,640,CV_8UC3),test(480,640,CV_8UC3);
         cap>> reference;
         while(true){
                 cap>>webcam;
@@ -59,7 +39,16 @@ int main(int argc, char **argv){
                                }
                         }
                 }
-                oVideoWriter.write(resultat);
+                
+                cvtColor(resultat,test,COLOR_BGR2HSV);
+
+                // TODO:
+                //      Traitement
+                //              HSV
+                //              EroDil ?
+                inRange(test,Scalar(2,7,150),Scalar(55,147,240),test);
+
+                imshow("GaussianBlur",test);
                 imshow("Reference", reference);
                 imshow("Webcam", webcam);
                 imshow("Resultat", resultat);

@@ -6,15 +6,11 @@ using namespace cv;
 using namespace std;
 
 int main(int argc, char **argv){
-
         double alpha = 0.5, beta, input;
         Mat src1, src2, dst;
         cout << "Entrer valeur:"<<endl;
         cin >> input;
-        
-        if(input >= 0 && input <= 1){
-                alpha = input;
-        }
+        if(input >= 0 && input <= 1){alpha = input;}
 
         src1= imread(argv[1]);
         src2= imread(argv[2]);

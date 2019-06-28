@@ -57,7 +57,7 @@ main (int argc, char *argv[])
 	{
 	  for (int j = 0; j < PH.cols; j++)
 	    {
-	      F if (frame_threshold.at < unsigned char >(Point (j, i)) != 255)
+	       if (frame_threshold.at < unsigned char >(Point (j, i)) != 255)
 		{
 		  PH.at < Vec3b > (Point (j, i)) = Vec3b (0, 0, 0);
 		}

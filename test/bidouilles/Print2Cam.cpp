@@ -8,9 +8,7 @@
 
 using namespace cv;
 
-int
-main (int argc, char **argv)
-{
+int main (int argc, char **argv){
   VideoCapture cap (atoi (argv[1]));	//Open the default video camera
 
   VideoCapture cap2 (atoi (argv[2]));
@@ -23,8 +21,7 @@ main (int argc, char **argv)
   namedWindow ("edges", 1);
   Mat edges2;
   namedWindow ("edges2", 1);
-  for (;;)
-    {
+   while(true) {
       Mat frame;
       cap >> frame;		// get a new frame from camera
       cvtColor (frame, edges, COLOR_BGR2GRAY);
