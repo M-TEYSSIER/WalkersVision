@@ -6,7 +6,7 @@ Distance/longueur Focale:
         - distance entre le centre optique de l'objectif et le foyer
         - Exprimé en millimètres, indique (en grooos) au le niveau de zoom
         - Catégories (Permet le "Zoom"):
-                - Standatrs (50 - 35 mm), reproduit l'angle de vue de l'oeil humain.
+                - Standard (50 - 35 mm), reproduit l'angle de vue de l'oeil humain.
                 - Grand-angle (18 mm), diminue la taille des objets et donne un angle de vue plus grand  [Augmente l'effet de profondeur]
                 - Téléobjectif (250 mm), qui agrandit la taille des objets, mais donne aussi un angle de vue plus étroit [Diminue l'effet de profondeur"]
 Ouverture du diaphragme:
