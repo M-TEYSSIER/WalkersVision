@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <opencv2/opencv.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/calib3d/calib3d.hpp>
+#include <opencv2/highgui/highgui.hpp>
+
+using namespace cv;
+using namespace std;
+
+int main(int argc, char *argv[]) {
+	Size patternsize(atoi(argv[2]), atoi(argv[3]));	//number of centers
+
+	Size patternsize(8, 6);	//interior number of corners
+	Mat gray = ....;	//source image
+	vector < Point2f > corners;	//this will be filled by the detected corners
+
+//CALIB_CB_FAST_CHECK saves a lot of time on images
+//that do not contain any chessboard corners
+	bool patternfound =
+	    findChessboardCorners(gray, patternsize, corners,
+				  CALIB_CB_ADAPTIVE_THRESH +
+				  CALIB_CB_NORMALIZE_IMAGE +
+				  CALIB_CB_FAST_CHECK);
+
+	if (patternfound)
+		cornerSubPix(gray, corners, Size(11, 11), Size(-1, -1),
+			     TermCriteria(CV_TERMCRIT_EPS +
+					  CV_TERMCRIT_ITER, 30, 0.1));
+
+	drawChessboardCorners(img, patternsize, Mat(corners),
+			      patternfound);
+
+}
+

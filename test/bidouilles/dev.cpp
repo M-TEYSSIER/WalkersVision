@@ -1,5 +1,7 @@
 #include "../../opencv/imgproc.hpp"
+#include "../../opencv/core.hpp"
 #include "../../opencv/highgui.hpp"
+#include "../../opencv/opencv.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -70,8 +72,15 @@ int main(int argc, char **argv){
                                }
                         }
                 }
-                imshow("Reference", reference);
-                imshow("Resultat", resultat);
+                 vector<Vec4i> hierarchy;
+                 vector<vector<Point>> contours;
+               
+               Mat resultat_canny=resultat.clone();
+               Canny(resultat,resultat_canny,100,200,3);
+               findContours(resultat_canny,contours,hierarchy,RETR_TREE,CHAIN_APPROX_SIMPLE,Point(0,0)) ; 
+               rectangle(resultat,Point(200,480),Point(430,380),Scalar(255),2,8,0);
+//               imshow("Reference", rhsv);
+               imshow("Resultat", resultat);
                 if(waitKey(30)>=0){break;}
                 renew++;
         }
