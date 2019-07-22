@@ -11,35 +11,27 @@ using namespace cv;
 using namespace std;
 
 int main(int argc, char * argv[]) {
-        Size patternsize(atoi(argv[2]),atoi(argv[3]));	//number of centers
-	Mat frame,frame2;
         VideoCapture cap(atoi(argv[1]));        
-        VideoCapture cap2(atoi(argv[2]));        
-        if (!cap.isOpened ()){return -1;}
-	vector < Point2f > centers;
+	if (!cap.isOpened ()){return -1;}
+
+        Size patternsize1(atoi(argv[2]),atoi(argv[3]));	//number of centers
+	Size patternsize2(atoi(argv[4]),atoi(argv[5]));
+	Mat frame, frame2;
+	vector < Point2f > centers, centers2;
+	
 	while (1) {
-                cap>>frame;
-                cap2>>frame2;
+                cap>>frame; cap>>frame2;
 
-                bool patternfound = findChessboardCorners(frame, patternsize, centers);
-                drawChessboardCorners(frame, patternsize, Mat(centers),patternfound);
+                bool patternfound = findChessboardCorners(frame, patternsize1, centers);
+                drawChessboardCorners(frame, patternsize1, Mat(centers),patternfound);
 
-                bool found = findCirclesGrid(frame, Size(12,8), centers);
-                drawChessboardCorners(frame, Size(12,8), Mat(centers),found);
+		// Probleme avec le cercle en vertical (ex: 8x12, les reperes pop à cotés)
+                bool found = findCirclesGrid(frame2, patternsize2, centers2);
+                drawChessboardCorners(frame2, patternsize2, Mat(centers2),found);
 
-                bool Foundamantal= findFundamentalMat(frame,frame2);
-                drawChessboardCorners(frame2, Size(12,8), Mat(centers),found);
-       
-cv::Mat pnts3D(1,N,CV_64FC4);
-cv::Mat cam0pnts(1,N,CV_64FC2);
-cv::Mat cam1pnts(1,N,CV_64FC2);
-cv::triangulatePoints(frame,frame2,cam0pnts,cam1pnts,pnts3D);
-
-
-                cvNamedWindow("window");
-                cvNamedWindow("window2");
-		imshow("window", frame);
-		imshow("window2", frame2);
-		cvWaitKey(33);
+		imshow("Carres", frame);
+		imshow("Cercles", frame2);
+		if(waitKey(33)>=0){break;};
 	}
+	return 0;
 }
