@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <iostream>
 #include <opencv2/opencv.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
 using namespace cv;
@@ -23,7 +19,7 @@ int main(int argc, char * argv[]) {
                 bool patternfound = findChessboardCorners(frame, patternsize1, centers);
                 drawChessboardCorners(frame, patternsize1, Mat(centers),patternfound);
 
-		// Probleme avec les reperes  (ex: 8x12, les reperes pop en sur une zone fixe 
+		// Probleme avec les reperes (ex: 8x12, les reperes pop en sur une zone fixe
 		// et pas en suivi sur l'objet)
                 bool found = findCirclesGrid(frame2, patternsize2, centers2);
 		drawChessboardCorners(frame2, patternsize2, Mat(centers2),found);
