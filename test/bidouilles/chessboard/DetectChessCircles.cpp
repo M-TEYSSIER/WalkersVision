@@ -1,3 +1,9 @@
+// Use : ./DetectChessCircles X Y Z A B
+// X = Camera number
+// Y = Vertical chessboard
+// Z = Horizontal Chessboard
+// A = V Circle
+// B = H Circle
 #include <stdio.h>
 #include <stdlib.h>
 #include <opencv2/opencv.hpp>
@@ -21,11 +27,11 @@ int main(int argc, char * argv[]) {
 
 		// Probleme avec les reperes (ex: 8x12, les reperes pop en sur une zone fixe
 		// et pas en suivi sur l'objet)
-                bool found = findCirclesGrid(frame2, patternsize2, centers2);
-		drawChessboardCorners(frame2, patternsize2, Mat(centers2),found);
+                bool found = findCirclesGrid(frame, patternsize2, centers2);
+		drawChessboardCorners(frame, patternsize2, Mat(centers2),found);
 
 		imshow("Carres", frame);
-		imshow("Cercles", frame2);
+//		imshow("Cercles", frame2);
 		if(waitKey(33)>=0){break;};
 	}
 	return 0;
