@@ -24,7 +24,6 @@
  ./stereo_calib -rt=0 -prel=left_ -prer=right_ -post=jpg     RealTime id off ie images should be loaded from disk. With images named left_1.jpg, right_1.jpg etc.
  ***********************************************************************/
 
-
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -66,10 +65,7 @@ vector < Point2f > cornersLeft, cornersRight;
 vector < vector < Point2f > >cameraImagePoints[2];
 Size boardSize;
 
-string prefixLeft;
-string prefixRight;
-string postfix;
-string dir;
+string prefixLeft, prefixRight, postfix, dir;
 
 int calibType;
 
@@ -81,7 +77,6 @@ void saveImages(Mat, Mat, int);
 void calibrateStereoCamera(Size);
 void calibrateInRealTime(int, int);
 void calibrateFromSavedImages(string, string, string, string);
-
 
 // Ecriture sur image du nombre de capture fait / nombre de capture total
 Mat displayCapturedImageIndex(Mat img)
@@ -99,7 +94,7 @@ Mat displayMode(Mat img)
     String modeString = "DETECTING";
     if (mode == CAPTURING) {
 	modeString = "CAPTURING";
-    } else if (mode == CALIBRATING) {
+    } else if (mode == CALIBRATING){
 	modeString = "CALIBRATED";
     }
     putText(img, modeString, Point(50, 50), FONT_HERSHEY_SIMPLEX, 0.5,
@@ -109,7 +104,6 @@ Mat displayMode(Mat img)
     }
     return img;
 }
-
 
 // Recherche coin dans les images de camera gauche et droite
 bool findChessboardCornersAndDraw(Mat inputLeft, Mat inputRight)
@@ -140,7 +134,6 @@ bool findChessboardCornersAndDraw(Mat inputLeft, Mat inputRight)
     }
 }
 
-
 // Affichage des images sur l ecran
 void displayImages()
 {
@@ -166,7 +159,6 @@ void saveImages(Mat leftImage, Mat rightImage, int pairIndex)
     }
 }
 
-// 
 void calibrateStereoCamera(Size imageSize)
 {
     // Construction de tableau 2D à 3 float
@@ -183,13 +175,15 @@ void calibrateStereoCamera(Size imageSize)
     }
 
     Mat cameraMatrix[2], distCoeffs[2];
-    cameraMatrix[0] = Mat::eye(3, 3, CV_64F);
+    // eye() initialise la matrice avec une diagonale != 0 
+    cameraMatrix[0] = Mat::eye(3, 3, CV_64F); 
     cameraMatrix[1] = Mat::eye(3, 3, CV_64F);
     Mat R, T, E, F;
     double rms =
-	stereoCalibrate(objectPoints, cameraImagePoints[0],
+	stereoCalibrate(objectPoints, //  Vecteur des vecteurs des points du patron d etalonnage 
+                        cameraImagePoints[0], // Vecteur des vecteurs des projections de point du patron de calibrage
 			cameraImagePoints[1],
-			cameraMatrix[0], distCoeffs[0],
+			cameraMatrix[0], distCoeffs[0], // Matrice de la camera & vecteur de coefficients distortion 
 			cameraMatrix[1], distCoeffs[1],
 			imageSize, R, T, E, F,
 			CALIB_FIX_ASPECT_RATIO +
@@ -199,20 +193,22 @@ void calibrateStereoCamera(Size imageSize)
 			CALIB_FIX_K3 + CALIB_FIX_K4 + CALIB_FIX_K5,
 			TermCriteria(TermCriteria::COUNT +
 				     TermCriteria::EPS, 100, 1e-5));
-    cout << "RMS Error: " << rms << "\n";
+    cout << "RMS Error: " << rms << "\n"; // Affichage du Root Mean Square
     double err = 0;
     int npoints = 0;
-    vector < Vec3f > lines[2];
+    vector < Vec3f > lines[2]; // Creation tableau de vecteur de 3 float
     for (int i = 0; i < noOfStereoPairs; i++) {
 	int npt = (int) cameraImagePoints[0][i].size();
 	Mat imgpt[2];
 	for (int k = 0; k < 2; k++) {
 	    imgpt[k] = Mat(cameraImagePoints[k][i]);
+            // Calcule les coordonnees du point ideal via les coordonnees du point observe
 	    undistortPoints(imgpt[k], imgpt[k], cameraMatrix[k],
 			    distCoeffs[k], Mat(), cameraMatrix[k]);
 	    computeCorrespondEpilines(imgpt[k], k + 1, F, lines[k]);
 	}
 	for (int j = 0; j < npt; j++) {
+            // Calcule la valeur absolue du meme point sur les 2 cam
 	    double errij =
 		fabs(cameraImagePoints[0][i][j].x * lines[1][j][0] +
 		     cameraImagePoints[0][i][j].y * lines[1][j][1] +
@@ -225,6 +221,7 @@ void calibrateStereoCamera(Size imageSize)
 	npoints += npt;
     }
     cout << "Average Reprojection Error: " << err / npoints << endl;
+    // Enregistre les valeurs intrinsics
     FileStorage fs("intrinsics.yml", FileStorage::WRITE);
     if (fs.isOpened()) {
 	fs << "M1" << cameraMatrix[0] << "D1" << distCoeffs[0] <<
@@ -238,6 +235,7 @@ void calibrateStereoCamera(Size imageSize)
 		  distCoeffs[1], imageSize, R, T, R1, R2, P1, P2, Q,
 		  CALIB_ZERO_DISPARITY, 1, imageSize, &validROI[0],
 		  &validROI[1]);
+    // Enregistre les valeurs extrinsincs
     fs.open("extrinsics.yml", FileStorage::WRITE);
     if (fs.isOpened()) {
 	fs << "R" << R << "T" << T << "R1" << R1 << "R2" << R2 << "P1" <<
@@ -245,9 +243,12 @@ void calibrateStereoCamera(Size imageSize)
 	fs.release();
     } else
 	cout << "Error: Could not open extrinsics file";
+
     bool isVerticalStereo =
 	fabs(P2.at < double >(1, 3)) > fabs(P2.at < double >(0, 3));
+
     Mat rmap[2][2];
+    // Calcule la carte de transformation de la rectification et de l'absence de distorsion
     initUndistortRectifyMap(cameraMatrix[0], distCoeffs[0], R1, P1,
 			    imageSize, CV_16SC2, rmap[0][0], rmap[0][1]);
     initUndistortRectifyMap(cameraMatrix[1], distCoeffs[1], R2, P2,
@@ -259,6 +260,7 @@ void calibrateStereoCamera(Size imageSize)
 	sf = 600. / MAX(imageSize.width, imageSize.height);
 	w = cvRound(imageSize.width * sf);
 	h = cvRound(imageSize.height * sf);
+        // Creation d une matrice de taille h,w*2 et de type CV_8UC3
 	canvas.create(h, w * 2, CV_8UC3);
     } else {
 	sf = 300. / MAX(imageSize.width, imageSize.height);
@@ -275,7 +277,7 @@ void calibrateStereoCamera(Size imageSize)
 	    } else if (j == 1) {
 		file = prefixRight;
 	    }
-	    ostringstream st;
+	    ostringstream st; // ostringstream permet d ecrire pour creer une chaine de caracteres
 	    st << dir << "/" << file << i + 1 << "." << postfix;
 	    Mat img = imread(st.str().c_str()), rimg, cimg;
 	    remap(img, rimg, rmap[j][0], rmap[j][1], INTER_LINEAR);
@@ -288,10 +290,12 @@ void calibrateStereoCamera(Size imageSize)
 		      cvRound(validROI[j].y * sf),
 		      cvRound(validROI[j].width * sf),
 		      cvRound(validROI[j].height * sf));
+            // Dessine un rectangle 
 	    rectangle(canvasPart, vroi, Scalar(0, 0, 255), 3, 8);
 	}
 	if (!isVerticalStereo)
 	    for (int j = 0; j < canvas.rows; j += 16)
+                // Dessine une ligne
 		line(canvas, Point(0, j), Point(canvas.cols, j),
 		     Scalar(0, 255, 0), 1, 8);
 	else
@@ -306,10 +310,10 @@ void calibrateInRealTime(int cam1, int cam2)
 {
     VideoCapture camLeft(cam1), camRight(cam2);
     if (!camLeft.isOpened() || !camRight.isOpened()) {
-	cout <<
-	    "Error: Stereo Cameras not found or there is some problem connecting them. Please check your cameras.\n";
+	cout <<"Error: Stereo Cameras not found or there is some problem connecting them. Please check your cameras.\n";
 	exit(-1);
     }
+
     Mat inputLeft, inputRight, copyImageLeft, copyImageRight;
     bool foundCornersInBothImage = false;
     for (;;) {
