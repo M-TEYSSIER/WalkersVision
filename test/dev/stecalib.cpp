@@ -64,7 +64,8 @@
 #include <iostream>
 #include <stdlib.h>
 
-#define timeGap 1500000000U // 3000000000U
+// Definition du temps entre 2 capture (2sec) 
+#define timeGap 500000000U // 3000000000U 
 
 
 using namespace cv;
@@ -131,16 +132,17 @@ Mat displayMode(Mat img) {
     return img;
 }
 
+// Pour trouver et afficher le chessbord
 bool findChessboardCornersAndDraw(Mat inputLeft, Mat inputRight) {
-    _leftOri = inputLeft;
-    _rightOri = inputRight;
+    _leftOri = inputLeft; // Image source gauche 
+    _rightOri = inputRight; // Image source droite
     bool foundLeft = false, foundRight = false;
-    cvtColor(inputLeft, inputLeft, COLOR_BGR2GRAY);
-    cvtColor(inputRight, inputRight, COLOR_BGR2GRAY);
-    foundLeft = findChessboardCorners(inputLeft, boardSize, cornersLeft, CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
-    foundRight = findChessboardCorners(inputRight, boardSize, cornersRight, CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
-    drawChessboardCorners(_leftOri, boardSize, cornersLeft, foundLeft);
-    drawChessboardCorners(_rightOri, boardSize, cornersRight, foundRight);
+    cvtColor(inputLeft, inputLeft, COLOR_BGR2GRAY); // Passage img en gris
+    cvtColor(inputRight, inputRight, COLOR_BGR2GRAY); // Passage img en gris
+    foundLeft = findChessboardCorners(inputLeft, boardSize, cornersLeft, CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE); // Recherche de coin sur SRC G
+    foundRight = findChessboardCorners(inputRight, boardSize, cornersRight, CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE); // Recherche de coin sur SRC D
+    drawChessboardCorners(_leftOri, boardSize, cornersLeft, foundLeft); // Desine sur SRC G
+    drawChessboardCorners(_rightOri, boardSize, cornersRight, foundRight); // Dessine sur SRC D
     _leftOri = displayMode(_leftOri);
     _rightOri = displayMode(_rightOri);
     if (foundLeft && foundRight) {
@@ -156,6 +158,7 @@ void displayImages() {
     imshow("Right Image", _rightOri);
 }
 
+// Sauvegarder les images sur le disque
 void saveImages(Mat leftImage, Mat rightImage, int pairIndex) {
     cameraImagePoints[0].push_back(cornersLeft);
     cameraImagePoints[1].push_back(cornersRight);
@@ -169,14 +172,20 @@ void saveImages(Mat leftImage, Mat rightImage, int pairIndex) {
         imwrite(rightString.str().c_str(), rightImage);
     }
 }
-
+//Calibrage du stereo
 void calibrateStereoCamera(Size imageSize) {
     vector<vector<Point3f> > objectPoints;
     objectPoints.resize(noOfStereoPairs);
+    // Pour le chaque images
     for (int i=0; i<noOfStereoPairs; i++) {
         for (int j=0; j<boardSize.height; j++) {
             for (int k=0; k<boardSize.width; k++) {
-                objectPoints[i].push_back(Point3f(float(j),float(k),0.0));
+                // Multiplication de j et k par 0.018 (en cm)
+                // pour donner la taille d'un carré de la 
+                // planche de calibration. Ainsi le resultat
+                // donnera les valeurs ajusté à la réalité.
+                // Coord: X,Y,Z (Z=0.0)
+                objectPoints[i].push_back(Point3f(float(j*0.02),float(k*0.02),0.0)); 
             }
         }
     }
