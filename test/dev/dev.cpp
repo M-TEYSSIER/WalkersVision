@@ -1,96 +1,111 @@
-#include <opencv2/imgproc.hpp>
+#include <opencv2/sfm.hpp>
+#include <opencv2/viz.hpp>
+#include <opencv2/calib3d.hpp>
 #include <opencv2/core.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/opencv.hpp>
 #include <iostream>
-#include <cmath>
-
-using namespace cv;
+#include <fstream>
 using namespace std;
-
-int Calcul(unsigned char a, unsigned char b, unsigned char c, unsigned char d, unsigned char e, unsigned char f ){
-        int A,B,C,D,E,F,r;
-        A = (int) a ; 
-        B = (int) b ;
-        C = (int) c ;
-        D = (int) d ;
-        E = (int) e ;
-        F = (int) f ;
-        r=abs((B-E)+(C-F));
-        if ((A>3) && (A<14) && (B>40) && (B<190) && (C>100) && (C<250) && (A-D<10) && (B-E<10) && (C-F<10) ){ 
-                return r;
-        } else {
-                r=0;
-                return r;
-        }
+using namespace cv;
+using namespace cv::sfm;
+static void help() {
+  cout
+      << "\n------------------------------------------------------------------------------------\n"
+      << " This program shows the multiview reconstruction capabilities in the \n"
+      << " OpenCV Structure From Motion (SFM) module.\n"
+      << " It reconstruct a scene from a set of 2D images \n"
+      << " Usage:\n"
+      << "        example_sfm_scene_reconstruction <path_to_file> <f> <cx> <cy>\n"
+      << " where: path_to_file is the file absolute path into your system which contains\n"
+      << "        the list of images to use for reconstruction. \n"
+      << "        f  is the focal length in pixels. \n"
+      << "        cx is the image principal point x coordinates in pixels. \n"
+      << "        cy is the image principal point y coordinates in pixels. \n"
+      << "------------------------------------------------------------------------------------\n\n"
+      << endl;
 }
-
-int main(int argc, char **argv){
-        int renew=0;
-        unsigned char R,G,B,H1,S1,V1,H,S,V,Res,Bes,Ges;  
-        VideoCapture cap(atoi(argv[1]));
-        Mat webcam, whsv(480,640,CV_8UC3), reference,rhsv(480,640,CV_8UC3), resultat(480,640,CV_8UC3), ero,dil;
-        cap>>reference;
-        cvtColor(reference,rhsv,COLOR_BGR2HSV);// Passage HSV
-
-        while(true){
-                while(renew==2){  
-                        cap>>reference;
-                        GaussianBlur(reference,reference,Size(5,5),0,0);
-                        GaussianBlur(reference,reference,Size(5,5),0,0);
-                        GaussianBlur(reference,reference,Size(5,5),0,0);
-                        erode(reference,reference,Mat(),Point(1,1),2,1);
-                        cvtColor(reference,rhsv,COLOR_BGR2HSV);// Passage HSV
-                        renew=0;
-                }
-                cap>>webcam;
-                GaussianBlur(webcam,webcam,Size(5,5),0,0);
-                GaussianBlur(webcam,webcam,Size(5,5),0,0);
-                GaussianBlur(webcam,webcam,Size(5,5),0,0);
-                cvtColor(webcam,whsv,COLOR_BGR2HSV); // Passage HSV
-                if(!cap.isOpened()){cout << "Error opening video stream or file" << endl;return -1;}
-                for(int i=0;i<480; i++){// Rows 
-                        Vec3b *ptr = webcam.ptr<Vec3b>(i) ; // WebCam
-                        Vec3b *ptrwhsv = whsv.ptr<Vec3b>(i) ; // Webcam HSV
-                        Vec3b *ptrrhsv = rhsv.ptr<Vec3b>(i) ; // Reference HSV
-                        Vec3b *ptres = resultat.ptr<Vec3b>(i) ; // Resultat
-                        for(int j=0;j<640;j++){ // Cols
-                               H=ptrwhsv[j](0); // h webcam 
-                               S=ptrwhsv[j](1); // s webcam
-                               V=ptrwhsv[j](2); // v webcam
-                              H1=ptrrhsv[j](0); // H reference
-                              S1=ptrrhsv[j](1); // S reference
-                              V1=ptrrhsv[j](2); // V reference
-                               int A= Calcul(H,S,V,H1,S1,V1); 
-                               if( A>1) {
-                                       ptres[j](0)=ptr[j](0);
-                                       ptres[j](1)=ptr[j](1);
-                                       ptres[j](2)=ptr[j](2);
-                               }else{ // Sinon pixel -> Noir
-                                       ptres[j](0)=0;
-                                       ptres[j](1)=0;
-                                       ptres[j](2)=0;
-                               }
-                        }
-                }
-                  vector<vector<Point> > contours;
-                  vector<Vec4i> hierarchy;
-               
-               Mat resultat_canny=resultat.clone();
-               
-               Canny(resultat,resultat_canny,100,200,3);
-
-               findContours( resultat_canny, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0, 0) );
-               
-               for( int i = 0; i< contours.size(); i++ ){
-                        Scalar color = Scalar(0,0,255);
-                        drawContours( resultat, contours, i, color, 2, 8, hierarchy, 0, Point() );
-                }
-
-               imshow("Resultat", resultat);
-               if(waitKey(30)>=0){break;}
-               renew++;
-        }
-        cap.release();
-        return 0;
+static int getdir(const string _filename, vector<String> &files)
+{
+  ifstream myfile(_filename.c_str());
+  if (!myfile.is_open()) {
+    cout << "Unable to read file: " << _filename << endl;
+    exit(0);
+  } else {;
+    size_t found = _filename.find_last_of("/\\");
+    string line_str, path_to_file = _filename.substr(0, found);
+    while ( getline(myfile, line_str) )
+      files.push_back(path_to_file+string("/")+line_str);
+  }
+  return 1;
 }
+int main(int argc, char* argv[])
+{
+  // Read input parameters
+  if ( argc != 5 )
+  {
+    help();
+    exit(0);
+  }
+  // Parse the image paths
+  vector<String> images_paths;
+  getdir( argv[1], images_paths );
+  // Build intrinsics
+  float f  = atof(argv[2]),
+        cx = atof(argv[3]), cy = atof(argv[4]);
+  Matx33d K = Matx33d( f, 0, cx,
+                       0, f, cy,
+                       0, 0,  1);
+  bool is_projective = true;
+  vector<Mat> Rs_est, ts_est, points3d_estimated;
+  reconstruct(images_paths, Rs_est, ts_est, K, points3d_estimated, is_projective);
+  // Print output
+  cout << "\n----------------------------\n" << endl;
+  cout << "Reconstruction: " << endl;
+  cout << "============================" << endl;
+  cout << "Estimated 3D points: " << points3d_estimated.size() << endl;
+  cout << "Estimated cameras: " << Rs_est.size() << endl;
+  cout << "Refined intrinsics: " << endl << K << endl << endl;
+  cout << "3D Visualization: " << endl;
+  cout << "============================" << endl;
+  viz::Viz3d window("Coordinate Frame");
+             window.setWindowSize(Size(500,500));
+             window.setWindowPosition(Point(150,150));
+             window.setBackgroundColor(); // black by default
+  // Create the pointcloud
+  cout << "Recovering points  ... ";
+  // recover estimated points3d
+  vector<Vec3f> point_cloud_est;
+  for (int i = 0; i < points3d_estimated.size(); ++i)
+    point_cloud_est.push_back(Vec3f(points3d_estimated[i]));
+  cout << "[DONE]" << endl;
+  cout << "Recovering cameras ... ";
+  vector<Affine3d> path;
+  for (size_t i = 0; i < Rs_est.size(); ++i)
+    path.push_back(Affine3d(Rs_est[i],ts_est[i]));
+  cout << "[DONE]" << endl;
+  if ( point_cloud_est.size() > 0 )
+  {
+    cout << "Rendering points   ... ";
+    viz::WCloud cloud_widget(point_cloud_est, viz::Color::green());
+    window.showWidget("point_cloud", cloud_widget);
+    cout << "[DONE]" << endl;
+  }
+  else
+  {
+    cout << "Cannot render points: Empty pointcloud" << endl;
+  }
+  if ( path.size() > 0 )
+  {
+    cout << "Rendering Cameras  ... ";
+    window.showWidget("cameras_frames_and_lines", viz::WTrajectory(path, viz::WTrajectory::BOTH, 0.1, viz::Color::green()));
+    window.showWidget("cameras_frustums", viz::WTrajectoryFrustums(path, K, 0.1, viz::Color::yellow()));
+    window.setViewerPose(path[0]);
+    cout << "[DONE]" << endl;
+  }
+  else
+  {
+    cout << "Cannot render the cameras: Empty path" << endl;
+  }
+  cout << endl << "Press 'q' to close each windows ... " << endl;
+  window.spin();
+  return 0;
+} 

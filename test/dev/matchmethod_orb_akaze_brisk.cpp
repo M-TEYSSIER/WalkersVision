@@ -34,8 +34,8 @@ int main(int argc, char *argv[])
     typeAlgoMatch.push_back("BruteForce-Hamming");
     typeAlgoMatch.push_back("BruteForce-Hamming(2)");
     cv::CommandLineParser parser(argc, argv,
-        "{ @image1 | img/d2.jpg | }"
-        "{ @image2 | img/g2.jpg | }"
+        "{ @image1 | ../../../d1.jpg | }"
+        "{ @image2 | ../../../g1.jpg | }"
         "{help h ||}");
     if (parser.has("help"))
     {
